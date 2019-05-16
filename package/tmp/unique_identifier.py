@@ -1,15 +1,18 @@
 import json
+from config.config_loader import ConfigLoader
+import uuid
 
 print('Loading function')
 
-
 def lambda_handler(event, context):
-    #print("Received event: " + json.dumps(event, indent=2))
-    print("value1 = " + event.get('key1'))
-    print("value2 = " + event.get('key2'))
-    print("value3 = " + event.get('key3'))
-    return event.get('key1')  # Echo back the first key value
-    #raise Exception('Something went wrong')
+    config = ConfigLoader().config()
+    uuid_value = uuid.uuid4().hex
+    
+    return build_json_doc(uuid_value)
+
+def build_json_doc(uuid):
+    doc = { "uuid": uuid }
+    return json.dumps(doc)
 
 if __name__ == "__main__":
     class Event:
